@@ -1,7 +1,4 @@
-from xml.dom.minidom import Element
-
 import numpy as np
-
 
 # Create a 1D array
 
@@ -56,3 +53,33 @@ print("Flattened arr3:\n", arr6)
 arr7 = np.array([[1, 2, 3], [4, 5, 6]])
 arr8 = np.array([10, 20, 30])
 print("Broadcasting arr7 and arr8:\n", arr7 + arr8) # Adds arr8 to each row of arr7
+
+# Boolean Masking and Filtering
+arr9 = np.array([1, 2, 3, 4, 5])
+arr10 = np.array(["apple", "banana", "cherry", "date", "elderberry"])
+mask = arr9 >= 3 # Creates a boolean mask where the condition is True for elements greater than or equal to 3
+mask2 = np.char.find(arr10, "a") != -1 # Creates a boolean mask where the condition is True for elements containing the letter "a"
+print("Boolean mask for arr9 >= 3:", mask)
+print("Filtered arr9 using mask:", arr9[mask])
+print("Boolean mask for arr10 containing 'a':", mask2)
+print("Filtered arr10 using mask2:", arr10[mask2])
+
+
+# Exercise
+try:
+    # 1. Load the tinyShakespeare dataset and the more dataset, and combine them into a single string. Convert it into a list of character codes and turn it into a list of numpy arrays.
+    tinyShakespeare = "dataset/input.txt"
+    more = "dataset/more.txt"
+
+    with open(tinyShakespeare, "r") as f:
+        lines = f.read()
+
+    with open(more, "r") as f:
+        lines += f.read()
+    
+    characters = sorted(set(lines))  # Get the unique characters in the dataset
+    char_to_index = {char: idx for idx, char in enumerate(characters)}  # Create a mapping from character to index
+    print("Character to index mapping:", char_to_index)
+except FileNotFoundError:
+    print("Dataset file not found.")
+
