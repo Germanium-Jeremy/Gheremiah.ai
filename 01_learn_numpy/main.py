@@ -66,8 +66,8 @@ print("Filtered arr10 using mask2:", arr10[mask2])
 
 
 # Exercise
+# 1. Load the tinyShakespeare dataset and the more dataset, and combine them into a single string. Convert it into a list of character codes and turn it into a list of numpy arrays.
 try:
-    # 1. Load the tinyShakespeare dataset and the more dataset, and combine them into a single string. Convert it into a list of character codes and turn it into a list of numpy arrays.
     tinyShakespeare = "dataset/input.txt"
     more = "dataset/more.txt"
 
@@ -79,7 +79,44 @@ try:
     
     characters = sorted(set(lines))  # Get the unique characters in the dataset
     char_to_index = {char: idx for idx, char in enumerate(characters)}  # Create a mapping from character to index
-    print("Character to index mapping:", char_to_index)
+    char_codes = [char_to_index[char] for char in lines]  # Convert the characters in the dataset to their corresponding indices
+    char_codes_array = np.array(char_codes)  # Convert to NumPy array
+    # print("Character codes array:", char_codes_array[-10:])
 except FileNotFoundError:
     print("Dataset file not found.")
 
+# 2: Create a bigram count matrix
+vocab_size = len(characters)  # Number of unique characters
+bigram_counts = np.zeros((vocab_size, vocab_size), dtype=int) # Create a 2D array of zeros with shape (vocab_size, vocab_size) to hold the bigram counts
+
+# Count bigrams
+for (i, j) in zip(char_codes_array[:-1], char_codes_array[1:]): # Iterate through the character codes array, taking pairs of consecutive characters (bigrams)
+    bigram_counts[i, j] += 1
+    # print(f"Bigram ({characters[i]}, {characters[j]}) count: {bigram_counts[i, j]}")  # Print the count of each bigram as it is counted
+
+
+print("Bigram count matrix shape:", bigram_counts.shape)  # Should be (65, 65)
+
+
+# 3: Normalize the rows to create a probability distribution
+row_sums = bigram_counts.sum(axis=1, keepdims=True)  # Sum of each row
+probability_matrix = bigram_counts / row_sums  # Normalize
+
+# Handle divisions by zero (if any row sum is zero)
+probability_matrix = np.nan_to_num(probability_matrix)  # Replace NaN with 0
+
+print("Normalized probability matrix shape:", probability_matrix.shape)  # Should be (65, 65)
+
+
+# 4: Sample the next character index based on the current character index
+def sample_next_char(current_char_index):
+    """Sample the next character index based on the current character index."""
+    probabilities = probability_matrix[current_char_index]
+    next_char_index = np.random.choice(range(vocab_size), p=probabilities)
+    return next_char_index
+
+# Test the sampling function
+current_index = 0  # Example: starting with the first character
+next_index = sample_next_char(current_index)
+print("Next character index sampled:", next_index)
+print("Next character:", characters[next_index])
