@@ -1,12 +1,13 @@
 import numpy as np
 
+
 # Create a 1D array
 
 arr1 = np.array([1, 2, 3, 4, 5])
 print("Original array:", arr1)
 
 arr2 = np.array((2, 3))
-print("Array with shape (2, 3):", arr2)
+print("Array:", arr2)
 
 
 # Reshaping arrays
@@ -45,7 +46,7 @@ print("Slicing arr4 to get last two elements of the first row:\n", arr4[0, -2:, 
 
 # Flattening arrays
 
-arr6 = arr3.flatten() # Flattens the 2D array into a 1D array
+arr6 = arr3.flatten() # Flattens any multidimensional array into a 1D array
 print("Flattened arr3:\n", arr6)
 
 
