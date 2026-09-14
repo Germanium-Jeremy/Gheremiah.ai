@@ -1,3 +1,5 @@
 .env
 /dataset
 /raw_dataset
+.venv
+.git
