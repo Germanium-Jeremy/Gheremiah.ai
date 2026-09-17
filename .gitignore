@@ -4,3 +4,5 @@
 .venv
 .git
 /models
+/repositories/_raw
+/data
