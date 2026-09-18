@@ -6,14 +6,14 @@ All `.py` files and notebooks carry **revision comments** (why a variable/functi
 
 ## The 6-stage path
 
-| Stage | Folder | What it teaches |
-|---|---|---|
-| 01 | `01_learn_numpy/` | NumPy fundamentals (slicing, broadcasting, boolean masks) applied to a **character-level bigram model**: count pairs → row-normalize → sample next character. `main.py` is the walkthrough, `final.py` refactors it into a `TextModel` class. |
-| 02 | `02_learn_pytorch/` | PyTorch tensors + **autograd** (`main.py`), a **trigram** counting model with 2 characters of context (`trigram.py`), and the bridge from counting to **learning**: one-hot → matmul with a trainable `W` → softmax → cross-entropy → `backward()` (`final.py`). |
-| 03 | `03_linear_model/` | The first real **training loop**: epochs, SGD, averaged loss, **perplexity**, save/load checkpoints (`training.py`). `training.ipynb` is the Colab version comparing **character vs word vs BPE subword** tokenizations with bigram sampling. |
-| 04 | `04_neural_network/` | First neural network: a **2-layer MLP** that predicts the next character from a 5-character one-hot window. `main.ipynb` also trains a byte-level BPE twin; `subword.ipynb` is the dedicated subword (BPE, vocab 512) version — same MLP, wider inputs. |
-| 05 | `05_sequence_model_to_attention/` | **Self-attention from scratch**: single-head attention first in NumPy, then as an `nn.Module`; multi-head attention, Transformer blocks (residuals + LayerNorm + FFN), and a **char-level TinyGPT** trained on 64-token chunks with temperature/top-k sampling. |
-| 06 | `06_tiny_GPT/` | The payoff: a minimal **decoder-only GPT** with a learned **BPE tokenizer** (vocab 300), fused QKV + `scaled_dot_product_attention`, training loop, generation, and **checkpointing** to `models/06_tiny_GPT.pt` with a save/reload round-trip. |
+| Stage | Folder                            | What it teaches                                                                                                                                                                                                                                                  |
+| ----- | --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 01    | `01_learn_numpy/`                 | NumPy fundamentals (slicing, broadcasting, boolean masks) applied to a **character-level bigram model**: count pairs → row-normalize → sample next character. `main.py` is the walkthrough, `final.py` refactors it into a `TextModel` class.                    |
+| 02    | `02_learn_pytorch/`               | PyTorch tensors + **autograd** (`main.py`), a **trigram** counting model with 2 characters of context (`trigram.py`), and the bridge from counting to **learning**: one-hot → matmul with a trainable `W` → softmax → cross-entropy → `backward()` (`final.py`). |
+| 03    | `03_linear_model/`                | The first real **training loop**: epochs, SGD, averaged loss, **perplexity**, save/load checkpoints (`training.py`). `training.ipynb` is the Colab version comparing **character vs word vs BPE subword** tokenizations with bigram sampling.                    |
+| 04    | `04_neural_network/`              | First neural network: a **2-layer MLP** that predicts the next character from a 5-character one-hot window. `main.ipynb` also trains a byte-level BPE twin; `subword.ipynb` is the dedicated subword (BPE, vocab 512) version — same MLP, wider inputs.          |
+| 05    | `05_sequence_model_to_attention/` | **Self-attention from scratch**: single-head attention first in NumPy, then as an `nn.Module`; multi-head attention, Transformer blocks (residuals + LayerNorm + FFN), and a **char-level TinyGPT** trained on 64-token chunks with temperature/top-k sampling.  |
+| 06    | `06_tiny_GPT/`                    | The payoff: a minimal **decoder-only GPT** with a learned **BPE tokenizer** (vocab 300), fused QKV + `scaled_dot_product_attention`, training loop, generation, and **checkpointing** to `models/06_tiny_GPT.pt` with a save/reload round-trip.                  |
 
 ## The recurring pipeline
 
@@ -41,3 +41,16 @@ python -m venv .venv
 ```
 
 Core dependencies: `torch`, `numpy`, `tokenizers`, `matplotlib`, `jupyter`. Scripts in 01–03 expect to be run from the workspace root (they load `dataset/...` relative paths); notebooks run top-to-bottom.
+
+## Colab: conversational LM
+
+The notebook in `07_conversational_lm/07_conversational_lm.ipynb` includes a
+setup cell that downloads Cornell Movie-Dialogs, EmpatheticDialogues, ConvAI2,
+and Tiny Shakespeare, then normalizes the archives into `repositories/_raw` for
+`07_preprocess.py`. The same logic is available in
+`07_conversational_lm/colab_setup.py` and is safe to run more than once.
+
+Set `USE_GOOGLE_DRIVE = True` in that setup cell to mount Drive and save both the
+resumable training state and the final `07_conversational_lm.pt` checkpoint under
+`MyDrive/Gheremiah/models`. Leave it `False` to use the runtime's local
+`models/` directory; local files disappear when the Colab runtime is deleted.
