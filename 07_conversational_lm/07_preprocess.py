@@ -28,7 +28,8 @@ import os
 import random
 import sys
 
-ROOT = os.path.dirname(os.path.abspath(__file__))
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.dirname(SCRIPT_DIR)
 RAW = os.path.join(ROOT, "repositories", "_raw")
 OUT_DIR = os.path.join(ROOT, "data")
 os.makedirs(OUT_DIR, exist_ok=True)
