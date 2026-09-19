@@ -1,6 +1,8 @@
 # GHEREMIAH AI
 
-A hands-on workspace for learning how language models are built — six numbered stages that walk from **NumPy basics** all the way to a **tiny GPT trained on Tiny Shakespeare**. Every stage builds directly on the previous one, so the folders are meant to be read in order.
+Through a hands-on project building a tiny GPT from the ground up, I developed a practical understanding of the core mechanics behind modern language models. Starting from scratch, I implemented a character-level (and later byte-level BPE) tokenizer, a transformer with causal self-attention, and a training loop on Shakespeare text—producing a model capable of generating coherent, stylized prose one token at a time. The process taught me how tokenization strategies, model architecture choices, and training hyperparameters directly shape generation quality, and gave me an intuitive grasp of how predictive language modeling works under the hood.
+
+Key aspects I focused on include the causal attention mechanism, embedding weight tying, and the engineering decisions around vocabulary size, context length, and model scale. Having built and trained a working GPT on a single-domain corpus, my next goal is to extend it into a conversational language model by curating multi-turn dialogue data, adding chat-specific tokens and loss masking, and building an interactive inference loop—moving from raw text prediction toward useful, context-aware dialogue.
 
 All `.py` files and notebooks carry **revision comments** (why a variable/function/block exists, what it controls, and how it affects the model or output) so the material is easy to revisit later. Comments never change the code itself.
 
